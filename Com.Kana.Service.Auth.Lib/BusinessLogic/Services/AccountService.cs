@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Com.Kana.Service.Auth.Lib.BusinessLogic.Services
@@ -188,5 +189,22 @@ namespace Com.Kana.Service.Auth.Lib.BusinessLogic.Services
         {
             return DbSet.Any(r => r.IsDeleted.Equals(false) && r.Id != id && r.Username.Equals(username));
         }
-    }
+		public async Task<bool> GetCode()
+		{
+			var httpClient = new HttpClient();
+			var url = "https://account.accurate.id/oauth/authorize?client_id=10c9a510-48b4-48c0-9c15-3adc687c79a8&response_type=code&redirect_uri=http://localhost:5000/v1/integration/authcallback&scope=item_view%20item_save%20customer_save%20sales_invoice_view%20sales_invoice_save";
+
+
+			var response = await httpClient.GetAsync(url);
+
+			if (response.IsSuccessStatusCode)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
 }

@@ -13,5 +13,6 @@ namespace Com.Kana.Service.Auth.Lib.BusinessLogic.Interfaces
         Task<Account> Authenticate(string username, string password);
 
         bool CheckDuplicate(int id, string username);
-    }
+		Task<bool> GetCode();
+	}
 }
